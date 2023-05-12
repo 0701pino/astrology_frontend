@@ -57,7 +57,7 @@ const AstrologyDetails = () => {
           </h2>
           <div className="flex justify-center mb-8">
             <img
-              src={`/images/${astrologyData.nameEn}.png`}
+              src={`/images/${astrologyData.nameEn}.jpg`}
               alt={astrologyData.nameEn}
               className="w-64 h-64 object-cover rounded-full border-4 border-yellow-500"
             />
