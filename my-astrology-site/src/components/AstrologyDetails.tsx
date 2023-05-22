@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
+import axios from "axios";
+import { sign_info } from "./common";
 
-interface Astrology {
+interface AstrologyData {
   rank: number;
   nameEn: string;
   nameJp: string;
@@ -11,37 +13,54 @@ interface Astrology {
   luckyItem: string;
 }
 
+interface AstrologyDetail {
+  color: string;
+  date: string;
+  fortune: string;
+  item: string;
+  number: string;
+  ranking: number;
+  sign: string;
+}
+
 const AstrologyDetails = () => {
-  const [astrologyData, setAstrologyData] = useState<Astrology | null>(null);
+  const [astrologyData, setAstrologyData] = useState<AstrologyData | null>(null);
 
   const { astrologyName } = useParams<{ astrologyName: string }>();
 
-  // ダミーデータを使用する
-  const dummyData: Astrology = {
-    rank: 1,
-    nameEn: "aries",
-    nameJp: "牡羊座",
-    fortune: "今日はラッキーな日です。",
-    luckyColor: "赤",
-    luckyItem: "ペンダント",
-  };
-
   // WebAPIからデータを取得する場合
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axios.get<Astrology>(
-  //       `https://your-api-url/astrology/${astrologyName}`
-  //     );
-  //     setAstrologyData(response.data);
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get<AstrologyDetail>(
+        ` https://r84y47nxhb.execute-api.ap-northeast-1.amazonaws.com/Prod/astrology?sign=${astrologyName}`
+      );
+      console.log(response.data)
+      const detail : AstrologyData ={
+        rank: response.data.ranking,
+        nameEn: response.data["sign"],
+        nameJp: sign_info[response.data.sign]["nameJp"],
+        fortune: response.data["fortune"],
+        luckyColor: response.data["color"],
+        luckyItem: response.data["item"],
+      }
+      setAstrologyData(detail);
+    };
 
-  //   fetchData();
-  // }, [astrologyName]);
+    fetchData();
+  }, [astrologyName]);
 
-  // ダミーデータを使用する場合
-  useState(() => {
-    setAstrologyData(dummyData);
-  });
+  // // ダミーデータを使用する場合
+  // const dummyData: Astrology = {
+  //   rank: 1,
+  //   nameEn: "aries",
+  //   nameJp: "牡羊座",
+  //   fortune: "今日はラッキーな日です。",
+  //   luckyColor: "赤",
+  //   luckyItem: "ペンダント",
+  // };
+  // useState(() => {
+  //   setAstrologyData(dummyData);
+  // });
 
   if (!astrologyData) {
     return <div>Loading...</div>;
