@@ -48,7 +48,7 @@ const AstrologyRanking = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://r84y47nxhb.execute-api.ap-northeast-1.amazonaws.com/Prod/astrology-ranking`
+        `https://r36klb1lk9.execute-api.ap-northeast-1.amazonaws.com/Prod//astrology-ranking`
       );
       const ranking: AstrologyInfo[] = response.data["ranking"];
       console.log(ranking);

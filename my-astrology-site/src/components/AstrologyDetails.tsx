@@ -32,7 +32,7 @@ const AstrologyDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get<AstrologyDetail>(
-        ` https://r84y47nxhb.execute-api.ap-northeast-1.amazonaws.com/Prod/astrology?sign=${astrologyName}`
+        `https://r36klb1lk9.execute-api.ap-northeast-1.amazonaws.com/Prod/astrology?sign=${astrologyName}`
       );
       console.log(response.data)
       const detail : AstrologyData ={
